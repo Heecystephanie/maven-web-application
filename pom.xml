@@ -97,13 +97,13 @@
 	
 	    <repository>
 	      <id>nexus</id>
-	      <name>Landmark Technologies Releases Nexus Repository</name>
+	      <name>Pipeline Nexus Repository</name>
 	      <url>http://54.183.165.67:8081/repository/onlinebookstore-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
-	      <name>Landmark Technologies Snapshot Nexus Repository </name>
+	      <name>Pipeline Snapshot Nexus Repository </name>
 	      <url>http://54.183.165.67:8081/repository/onlinebookstore-snap/</url>
 	    </snapshotRepository>
 	    
