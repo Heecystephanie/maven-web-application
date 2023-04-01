@@ -110,7 +110,7 @@
 	</distributionManagement>
 	
 	<build>
-		<finalName>MWA</finalName>
+		<finalName>Tesla31</finalName>
 		
 		<plugins>
 			<plugin>
