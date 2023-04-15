@@ -1,0 +1,61 @@
+pipeline{
+        agent {
+            label 'master'
+        } 
+        tools {
+          maven 'maven3.9.1'
+        }
+        stages {
+            stage('1. Code Clone'){
+            steps{
+            sh "echo 'cloning the latest application version' "
+            git "https://github.com/Heecystephanie/maven-web-application.git"
+            sh "echo 'latest application version available for testing and build' "
+        }
+        }
+        stage('2. Test and Build'){
+            steps{
+            sh "echo 'running JUnit-test-cases' "
+            sh "echo 'testing must passed to create artifacts ' "
+            sh "mvn clean package" 
+        }
+        }
+        stage('3. CodeQualityAnalysis') {
+            steps{
+            sh "echo setup sonarQube authentication"
+            sh "echo 'Perfoming CodeQualityAnalysis' "
+            sh "mvn sonar:sonar"      
+        }
+        }
+        stage('4. UploadArtifacts and create Proxy Repo') {
+            steps{
+            sh "echo configure nexus authentication"
+            sh "mvn deploy"
+            sh "echo artifacts uploaded"
+        }
+        }
+        stage('5. Deploy to Tomcat') {
+            steps{
+            deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://54.176.239.122:8080/')], contextPath: null, war: 'target/*war'        }
+        }
+        }
+        }
+        
+        /*post{ 
+            always{
+            emailext body: '''Great job team.
+
+            LandmarkTech ''', recipientProviders: [buildUser(), developers()], subject: 'Build Success', to: 'isibhemen@gmail.com'
+        }
+            success{
+            emailext body: '''Great job team.
+
+            LandmarkTech ''', recipientProviders: [buildUser(), developers()], subject: 'Build Success', to: 'isibhemen@gmail.com'
+        }
+            failure{
+            emailext body: '''Please review this job.
+
+            LandmarkTech ''', recipientProviders: [buildUser(), developers()], subject: 'Build failed', to: 'isibhemen@gmail.com'
+        }
+        }
+        */
